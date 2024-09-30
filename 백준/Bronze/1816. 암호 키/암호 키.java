@@ -4,27 +4,24 @@ public class Main {
 
 	static long[] arr;
 	static int N;
+	static int MAX_VALUE = 1_000_000;
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N = Integer.parseInt(br.readLine());
-
 		arr = new long[N];
 
 		for (int i = 0; i < N; i++) {
 			long num = Long.parseLong(br.readLine());
-			boolean isTrue = true;
+			String result = "YES";
 
-			for (int j = 2; j <= 1_000_000; j++) {
+			for (int j = 2; j <= MAX_VALUE; j++) {
 				if (num % j == 0) {
-					System.out.println("NO");
-					isTrue = false;
+					result = "NO";
 					break;
 				}
 			}
-			if (isTrue) {
-				System.out.println("YES");
-			}
+			System.out.println(result);
 		}
 	}
 
