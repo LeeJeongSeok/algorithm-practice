@@ -1,29 +1,30 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class Main {
 
-	static int N, result;
+	static int N, answer;
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N = Integer.parseInt(br.readLine());
 
-		for (int i = 0; i < N; i++) {
+		for (int i = 1; i < N; i++) {
 			int sum = 0;
-			int number = i;
+			int temp = i;
 
-			while (number != 0) {
-				sum += number % 10;
-				number = number / 10;
+			while (temp > 0) {
+				sum += temp % 10;
+				temp = temp / 10;
 			}
 
 			if (sum + i == N) {
-				result = i;
+				answer = i;
 				break;
 			}
 		}
 
-		System.out.println(result);
+		System.out.println(answer);
 	}
 
 }
