@@ -1,31 +1,50 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main {
 
-	static int[] arr = new int[9];
-	static int sum = 0;
+	static int[] arr, temp;
+	static boolean[] visited;
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		arr = new int[9];
+		temp = new int[7];
+		visited = new boolean[9];
+
 		for (int i = 0; i < 9; i++) {
 			arr[i] = Integer.parseInt(br.readLine());
-			sum += arr[i];
 		}
 
-		for (int i = 0; i < 8; i++) {
-			for (int j = i+1; j < 9; j++) {
-				if (sum - arr[i] - arr[j] == 100) {
-					arr[i] = 0;
-					arr[j] = 0;
-					Arrays.sort(arr);
-					for (int k = 2; k < 9; k++) {
-						System.out.println(arr[k]);
-					}
-					return;
+		dfs(0);
+	}
+
+	private static void dfs(int depth) {
+		if (depth == 7) {
+			if (calculate()) {
+				Arrays.stream(temp).sorted().forEach(System.out::println);
+				System.exit(0);
+			}
+		} else {
+			for (int i = 0; i < arr.length; i++) {
+				if (!visited[i]) {
+					visited[i] = true;
+					temp[depth]	= arr[i];
+					dfs(depth + 1);
+					visited[i] = false;
 				}
 			}
 		}
+	}
+
+	private static boolean calculate() {
+		int sum = 0;
+		for (int i = 0; i < temp.length; i++) {
+			sum += temp[i];
+		}
+		return sum == 100;
 	}
 
 }
