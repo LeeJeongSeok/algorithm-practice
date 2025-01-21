@@ -1,14 +1,11 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int N, M;
+	static int N, M, sum;
 	static String[][] dna;
 	static StringBuilder sb = new StringBuilder();
 
@@ -29,66 +26,35 @@ public class Main {
 		}
 
 		for (int i = 0; i < M; i++) {
-			int A = 0, C = 0, G = 0, T = 0;
-			int max = Integer.MIN_VALUE;
-			ArrayList<String> list = new ArrayList<>();
+			int[] count = new int[4];
 
 			for (int j = 0; j < N; j++) {
 				String alphabet = dna[j][i];
 
-				if (alphabet.equals("A")) {
-					A++;
-					max = Math.max(max, A);
-				} else if (alphabet.equals("C")) {
-					C++;
-					max = Math.max(max, C);
-				} else if (alphabet.equals("G")) {
-					G++;
-					max = Math.max(max, G);
-				} else {
-					T++;
-					max = Math.max(max, T);
+				if (alphabet.equals("A")) { count[0]++; }
+				else if (alphabet.equals("C")) { count[1]++; }
+				else if (alphabet.equals("G")) { count[2]++; }
+				else { count[3]++; }
+			}
+
+			int max = 0;
+			int idx = 0;
+
+			for (int j = 0; j < 4; j++) {
+				if (count[j] > max) {
+					max = count[j];
+					idx = j;
 				}
 			}
 
-			if (max == A) {
-				list.add("A");
-			}
+			if (idx == 0) { sb.append("A"); }
+			else if (idx == 1) { sb.append("C"); }
+			else if (idx == 2) { sb.append("G"); }
+			else { sb.append("T"); }
 
-			if (max == C) {
-				list.add("C");
-			}
-
-			if (max == G) {
-				list.add("G");
-			}
-
-			if (max == T) {
-				list.add("T");
-			}
-
-
-			if (list.size() >= 2) {
-				Collections.sort(list);
-				sb.append(list.get(0));
-			} else {
-				sb.append(list.get(0));
-			}
+			sum += N - max;
 		}
 
-		int sum = 0;
-
-		for (int i = 0; i < N; i++) {
-			int count = 0;
-			String S = sb.toString();
-			for (int j = 0; j < M; j++) {
-				if (!Objects.equals(dna[i][j], String.valueOf(S.charAt(j)))) {
-					count++;
-				}
-			}
-
-			sum += count;
-		}
 
 		System.out.println(sb.toString());
 		System.out.println(sum);
